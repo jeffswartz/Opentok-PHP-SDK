@@ -108,7 +108,9 @@ $token = $session->generateToken();
 $token = $session->generateToken(array(
     'role'       => Role::MODERATOR,
     'expireTime' => time()+(7 * 24 * 60 * 60), // in one week
-    'data'       => 'name=Johnny'
+    'data'       => 'name=Johnny',
+    'initialLayoutClassList' => array("full") // Used in custom layouts for archives and broadcasts
+    $token = $app->opentok->generateToken($sessionId, $options);
 ));
 ```
 

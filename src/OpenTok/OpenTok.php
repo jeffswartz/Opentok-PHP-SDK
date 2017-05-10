@@ -93,7 +93,8 @@ class OpenTok {
         $defaults = array(
             'role' => Role::PUBLISHER,
             'expireTime' => null,
-            'data' => null
+            'data' => null,
+            'initialLayoutClassList' => null,
         );
         $options = array_merge($defaults, array_intersect_key($options, $defaults));
         list($role, $expireTime, $data) = array_values($options);
@@ -110,7 +111,9 @@ class OpenTok {
 
         $dataString = "session_id=$sessionId&create_time=$createTime&role=$role&nonce=$nonce" .
             (($expireTime) ? "&expire_time=$expireTime" : '') .
-            (($data) ? "&connection_data=" . urlencode($data) : '');
+            (($data) ? "&connection_data=" . urlencode($data) : '') .
+            (($options['initialLayoutClassList'] ? "&initial_layout_class_list="
+              . urlencode(implode(" ", $options['initialLayoutClassList'])) : ''));
         $sig = $this->_sign_string($dataString, $this->apiSecret);
 
         return "T1==" . base64_encode("partner_id=$this->apiKey&sig=$sig:$dataString");
